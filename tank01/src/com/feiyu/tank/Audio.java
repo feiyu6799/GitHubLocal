@@ -9,7 +9,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.SourceDataLine;
-
+/**
+ * 音频
+ * @author feiyu
+ *
+ */
 public class Audio {
 
 	byte[] b = new byte[1024 * 1024 * 15];

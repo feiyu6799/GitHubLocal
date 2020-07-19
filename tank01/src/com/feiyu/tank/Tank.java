@@ -147,11 +147,20 @@ public class Tank {
 			break;
 		}
 		
-		if(this.group == Group.BAD)
-		if(random.nextInt(10) > 8) this.fire();
+		if(this.group == Group.BAD && random.nextInt(100) > 95)// random.nextInt(100) > 95：一定几率发射子弹
+			this.fire();
+		
+		if(this.group == Group.BAD && random.nextInt(100) > 95)// random.nextInt(100) > 95：一定几率转换方向
+			randomDir();
 		
 	}
-	
+	/**
+	 * 随机一个方向行驶
+	 */
+	private void randomDir() {
+		this.dir = Dir.values()[random.nextInt(4)];//Dir.values()获取枚举数组，[random.nextInt(4)]获取随机下标
+	}
+
 	/**
 	 * 坦克死亡
 	 */

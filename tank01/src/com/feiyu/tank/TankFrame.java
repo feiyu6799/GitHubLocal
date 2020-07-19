@@ -20,7 +20,7 @@ public class TankFrame extends Frame {
 	Tank myTank = new Tank(200, 400, Dir.DOWN, Group.GOOD, this);
 	List<Tank> tanks = new ArrayList<>();//敌方坦克集
 	List<Bullet> bullets = new ArrayList<>();//子弹集
-	Explode e = new Explode(100, 100, this);//爆炸
+	List<Explode> explodes = new ArrayList<>();//爆炸集
 
 	
 	static final int GAME_WIDTH = 1080, GAME_HEIGHT = 960;
@@ -74,7 +74,7 @@ public class TankFrame extends Frame {
 	
 	
 	@Override
-	public void paint(Graphics g) {//窗口被遮盖再次呈现时发生的事件
+	public void paint(Graphics g) {//窗口被遮盖再次呈现时发生的事件，repaint刷新窗口也可以触发
 		/*左上角显示子弹的数量*/
 		Color c = g.getColor();
 		g.setColor(Color.WHITE);
@@ -93,13 +93,15 @@ public class TankFrame extends Frame {
 			tanks.get(i).paint(g);
 		}
 		
+		for (int i = 0; i < explodes.size(); i++) {//爆炸绘制
+			explodes.get(i).paint(g);
+		}
+		
 		/*每发子弹与每辆敌方坦克做碰撞检测*/
 		for(int i=0; i<bullets.size(); i++) {
 			for(int j = 0; j<tanks.size(); j++) 
 				bullets.get(i).collideWith(tanks.get(j));
 		}
-		
-		e.paint(g);//爆炸绘制
 		
 	}
 	/**

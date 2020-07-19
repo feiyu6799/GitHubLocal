@@ -1,7 +1,11 @@
 package com.feiyu.tank;
 
 import java.awt.Graphics;
-
+/**
+ * 爆炸
+ * @author feiyu
+ *
+ */
 public class Explode {
 
 	public static int WIDTH = ResourceMgr.explodes[0].getWidth();
@@ -9,7 +13,7 @@ public class Explode {
 	
 	private int x, y;//位置
 	
-	private boolean living = true;//是否存活
+//	private boolean living = true;//是否存活
 	TankFrame tf = null;//主窗口
 	
 	private int step = 0;//记录1-16张图片加载到哪一张
@@ -29,7 +33,9 @@ public class Explode {
 		g.drawImage(ResourceMgr.explodes[step++], x, y, null);
 		
 		if(step >= ResourceMgr.explodes.length) 
-			step = 0;
+//			step = 0;
+			tf.explodes.remove(this);
+
 	}
 
 }
