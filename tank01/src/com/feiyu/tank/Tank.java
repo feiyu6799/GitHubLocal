@@ -12,10 +12,10 @@ import java.util.Random;
 public class Tank {
 	private int x, y; //大小
 	private Dir dir = Dir.DOWN; //方向
-	private static final int SPEED = 5; //速度
+	private static final int SPEED = 2; //速度
 	
-	public static int WIDTH = ResourceMgr.tankD.getWidth();
-	public static int HEIGHT = ResourceMgr.tankD.getHeight();
+	public static int WIDTH = ResourceMgr.tankU.getWidth();
+	public static int HEIGHT = ResourceMgr.tankU.getHeight();
 	
 	private  boolean moving = true; //坦克移动的暂停/启动
 	private TankFrame tf = null;//获取调用者的对象
@@ -120,6 +120,8 @@ public class Tank {
 		
 		//tf.bullets.add(new Bullet(bX, bY, this.dir, this.tf));
 		tf.bullets.add(new Bullet(bX, bY, this.dir, this.group, this.tf));
+		
+		if(this.group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
 
 	}
 	

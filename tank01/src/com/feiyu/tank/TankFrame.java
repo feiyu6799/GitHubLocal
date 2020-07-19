@@ -23,7 +23,7 @@ public class TankFrame extends Frame {
 	Explode e = new Explode(100, 100, this);//爆炸
 
 	
-	static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+	static final int GAME_WIDTH = 1080, GAME_HEIGHT = 960;
 
 	
 	public TankFrame() {
@@ -136,6 +136,9 @@ public class TankFrame extends Frame {
 				break;
 			}
 			setMainTankDir();
+			
+			new Thread(()->new Audio("audio/tank_move.wav").play()).start();//声音
+
 		}
 
 		@Override

@@ -1,11 +1,10 @@
 package com.feiyu.tank;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class Bullet {
-	private static final int SPEED = 10; //速度
+	private static final int SPEED = 6; //速度
 	//private static int WIDTH = 30, HEIGHT = 30;//宽高
 	public static int WIDTH = ResourceMgr.bulletD.getWidth();//宽
 	public static int HEIGHT = ResourceMgr.bulletD.getHeight();//高

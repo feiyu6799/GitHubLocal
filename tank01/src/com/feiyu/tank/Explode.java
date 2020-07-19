@@ -19,7 +19,7 @@ public class Explode {
 		this.y = y;
 		this.tf = tf;
 		
-//		new Audio("audio/explode.wav").run();//加载爆炸声音
+//				new Thread(()->new Audio("audio/explode.wav").play()).start();//加载爆炸声音
 	}
 	
 	
