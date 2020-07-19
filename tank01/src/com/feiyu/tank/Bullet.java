@@ -12,6 +12,9 @@ public class Bullet {
 	//private static int WIDTH = 30, HEIGHT = 30;//宽高
 	public static int WIDTH = ResourceMgr.bulletD.getWidth();//宽
 	public static int HEIGHT = ResourceMgr.bulletD.getHeight();//高
+	
+	Rectangle rect = new Rectangle();//碰撞检测的类
+
 
 	private int x, y;//大小
 	private Dir dir;//方向
@@ -36,6 +39,11 @@ public class Bullet {
 		this.dir = dir;
 		this.group = group;
 		this.tf = tf;
+		
+		rect.x = this.x;
+		rect.y = this.y;
+		rect.width = WIDTH;
+		rect.height = HEIGHT;
 	}
 
 	/**
@@ -91,6 +99,11 @@ public class Bullet {
 			break;
 		}
 		
+		//update rect
+		rect.x = this.x;
+		rect.y = this.y;
+
+		
 		/*子弹移出主窗口范围，死亡*/
 		if(x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) living = false;
 	
@@ -106,9 +119,10 @@ public class Bullet {
 		if(this.group == tank.getGroup()) return;//想同属相的坦克和炮弹之间没有伤害
 
 		//TODO: 用一个rect来记录子弹的位置
-		Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
-		Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
-		if(rect1.intersects(rect2)) {//位置比对
+//		Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+//		Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
+//		if(rect1.intersects(rect2)) {
+		if(rect.intersects(tank.rect)) {//位置比对
 			tank.die();//死亡
 			this.die();//死亡
 			int eX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;

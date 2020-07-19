@@ -2,6 +2,7 @@ package com.feiyu.tank;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Random;
 
 /**
@@ -14,8 +15,8 @@ public class Tank {
 	private Dir dir = Dir.DOWN; //方向
 	private static final int SPEED = 2; //速度
 	
-	public static int WIDTH = ResourceMgr.tankU.getWidth();
-	public static int HEIGHT = ResourceMgr.tankU.getHeight();
+	public static int WIDTH = ResourceMgr.goodTankU.getWidth();
+	public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
 	
 	private  boolean moving = true; //坦克移动的暂停/启动
 	private TankFrame tf = null;//获取调用者的对象
@@ -23,6 +24,7 @@ public class Tank {
 	private Group group = Group.BAD;//阵容分类
 	
 	private Random random = new Random();
+	Rectangle rect = new Rectangle();//碰撞检测的类
 
 	
 	public Group getGroup() {
@@ -72,6 +74,11 @@ public class Tank {
 		this.dir = dir;
 		this.group = group;
 		this.tf = tf;
+		
+		rect.x = this.x;
+		rect.y = this.y;
+		rect.width = WIDTH;
+		rect.height = HEIGHT;
 	}
 
 	/**
@@ -92,16 +99,16 @@ public class Tank {
 		/*导入加载图片绘制坦克模型*/
 		switch(dir) {
 		case LEFT:
-			g.drawImage(ResourceMgr.tankL, x, y, null);
+			g.drawImage(this.group == Group.GOOD? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
 			break;
 		case UP:
-			g.drawImage(ResourceMgr.tankU, x, y, null);
+			g.drawImage(this.group == Group.GOOD? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
 			break;
 		case RIGHT:
-			g.drawImage(ResourceMgr.tankR, x, y, null);
+			g.drawImage(this.group == Group.GOOD? ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
 			break;
 		case DOWN:
-			g.drawImage(ResourceMgr.tankD, x, y, null);
+			g.drawImage(this.group == Group.GOOD? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
 			break;
 		}
 	
@@ -153,7 +160,23 @@ public class Tank {
 		if(this.group == Group.BAD && random.nextInt(100) > 95)// random.nextInt(100) > 95：一定几率转换方向
 			randomDir();
 		
+		boundsCheck();
+		
+		//update rect
+		rect.x = this.x;
+		rect.y = this.y;
+
 	}
+	/**
+	 * 边界检测，避免坦克抛出界面以外
+	 */
+	private void boundsCheck() {
+		if(this.x < 2) x = 2;
+		if (this.y < 28) y = 28;
+		if (this.x > TankFrame.GAME_WIDTH- Tank.WIDTH -2) x = TankFrame.GAME_WIDTH - Tank.WIDTH -2;
+		if (this.y > TankFrame.GAME_HEIGHT - Tank.HEIGHT -2 ) y = TankFrame.GAME_HEIGHT -Tank.HEIGHT -2;
+	}
+
 	/**
 	 * 随机一个方向行驶
 	 */
