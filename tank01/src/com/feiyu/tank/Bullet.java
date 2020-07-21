@@ -44,6 +44,8 @@ public class Bullet {
 		rect.y = this.y;
 		rect.width = WIDTH;
 		rect.height = HEIGHT;
+		
+		tf.bullets.add(this);//每创建一个新的对象，就往list中添加一个子弹，目的：简化写法
 	}
 
 	/**

@@ -11,17 +11,19 @@ import java.util.Random;
  *
  */
 public class Tank {
-	private int x, y; //大小
-	private Dir dir = Dir.DOWN; //方向
+	int x, y; //大小
+	Dir dir = Dir.DOWN; //方向
 	private static final int SPEED = 2; //速度
 	
 	public static int WIDTH = ResourceMgr.goodTankU.getWidth();
 	public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
 	
 	private  boolean moving = true; //坦克移动的暂停/启动
-	private TankFrame tf = null;//获取调用者的对象
+	TankFrame tf = null;//获取调用者的对象
 	private boolean living = true;
-	private Group group = Group.BAD;//阵容分类
+	Group group = Group.BAD;//阵容分类
+	
+	FireStrategy fs;//策略模式：子弹的接口属性
 	
 	private Random random = new Random();
 	Rectangle rect = new Rectangle();//碰撞检测的类
@@ -79,6 +81,25 @@ public class Tank {
 		rect.y = this.y;
 		rect.width = WIDTH;
 		rect.height = HEIGHT;
+		
+		/*根据坦克的类型不同选择的发射子弹的策略不同*/
+		if(group == Group.GOOD) {
+			String goodFSName = (String)PropertyMgr.get("goodFS");//获取配置文件
+			
+			try {
+				//示用配置文件怎么创建：
+				//fs = (FireStrategy)Class.forName(goodFSName).getDeclaredConstructor().newInstance();此方法调用是jdk1.9
+				//fs = (FireStrategy)Class.forName(goodFSName).newInstance();jdk1.9以下尝试用这种方法创建
+				fs = new FourDirFireStrategy();//根据配置文件创建类的对象
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		} else {
+			fs = new DefaultFireStrategy();
+		}
+	
+	
 	}
 
 	/**
@@ -120,15 +141,17 @@ public class Tank {
 	 */
 	public void fire() {
 		//添加子弹，这里注意控制子弹的生命周期，不然会造成内存溢出
-		//tf.bullets.add(new Bullet(this.x, this.y, this.dir, this.tf));
+		
 		/*子弹从中心位置打出，计算子弹在坦克内部的位置*/
-		int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
+/*		int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
 		int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
 		
-		//tf.bullets.add(new Bullet(bX, bY, this.dir, this.tf));
 		tf.bullets.add(new Bullet(bX, bY, this.dir, this.group, this.tf));
 		
-		if(this.group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
+		if(this.group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();*/
+		
+		/*上面注释内容都单独放到策略中处理了，子弹发射的不同*/
+		fs.fire(this);
 
 	}
 	
