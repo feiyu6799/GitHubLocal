@@ -10,6 +10,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.feiyu.tank.abstractfactory.BaseBullet;
+import com.feiyu.tank.abstractfactory.BaseExplode;
+import com.feiyu.tank.abstractfactory.BaseTank;
+import com.feiyu.tank.abstractfactory.DefaultFactory;
+import com.feiyu.tank.abstractfactory.GameFactory;
+import com.feiyu.tank.abstractfactory.RectFactory;
 /**
  * 窗口类
  * @author feiyu
@@ -18,12 +25,15 @@ import java.util.List;
 public class TankFrame extends Frame {
 	
 	Tank myTank = new Tank(200, 400, Dir.DOWN, Group.GOOD, this);
-	List<Tank> tanks = new ArrayList<>();//敌方坦克集
-	List<Bullet> bullets = new ArrayList<>();//子弹集
-	List<Explode> explodes = new ArrayList<>();//爆炸集
-
 	
-	static final int GAME_WIDTH = 1080, GAME_HEIGHT = 960;
+	public List<BaseBullet> bullets = new ArrayList<>();//敌方坦克集
+	public List<BaseTank> tanks = new ArrayList<>();//子弹集
+	public List<BaseExplode> explodes = new ArrayList<>();//爆炸集
+	
+	public GameFactory gf = new RectFactory();//选择使用默认的组还是方形的组
+	//public GameFactory gf = new DefaultFactory();
+	
+	public static final int GAME_WIDTH = 1080, GAME_HEIGHT = 960;
 
 	
 	public TankFrame() {

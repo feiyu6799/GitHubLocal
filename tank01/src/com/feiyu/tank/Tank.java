@@ -5,12 +5,14 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import com.feiyu.tank.abstractfactory.BaseTank;
+
 /**
  * 坦克类
  * @author feiyu
  *
  */
-public class Tank {
+public class Tank extends BaseTank{
 	int x, y; //大小
 	Dir dir = Dir.DOWN; //方向
 	private static final int SPEED = 2; //速度
@@ -151,7 +153,18 @@ public class Tank {
 		if(this.group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();*/
 		
 		/*上面注释内容都单独放到策略中处理了，子弹发射的不同*/
-		fs.fire(this);
+//		fs.fire(this);
+		//fs.fire(this);
+		
+		int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
+		int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
+		
+		Dir[] dirs = Dir.values();
+		for(Dir dir : dirs) {
+			tf.gf.createBullet(bX, bY, dir, group, tf);
+		}
+		
+		if(group == Group.GOOD) new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
 
 	}
 	

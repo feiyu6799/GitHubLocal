@@ -2,12 +2,15 @@ package com.feiyu.tank;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
+import com.feiyu.tank.abstractfactory.BaseBullet;
+import com.feiyu.tank.abstractfactory.BaseTank;
 /**
  * 子弹类
  * @author feiyu
  *
  */
-public class Bullet {
+public class Bullet extends BaseBullet {
 	private static final int SPEED = 6; //速度
 	//private static int WIDTH = 30, HEIGHT = 30;//宽高
 	public static int WIDTH = ResourceMgr.bulletD.getWidth();//宽
@@ -116,7 +119,7 @@ public class Bullet {
 	 * 碰撞分析
 	 * @param tank
 	 */
-	public void collideWith(Tank tank) {
+	public void collideWith(BaseTank tank) {
 		
 		if(this.group == tank.getGroup()) return;//想同属相的坦克和炮弹之间没有伤害
 
@@ -129,7 +132,7 @@ public class Bullet {
 			this.die();//死亡
 			int eX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
 			int eY = tank.getY() + Tank.HEIGHT/2 - Explode.HEIGHT/2;
-			tf.explodes.add(new Explode(eX, eY, tf));//爆炸
+			tf.explodes.add(tf.gf.createExplode(eX, eY, tf));//爆炸
 		}
 	}
 	/**
