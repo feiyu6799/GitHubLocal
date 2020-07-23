@@ -7,7 +7,7 @@ import java.awt.Rectangle;
  * @author feiyu
  *
  */
-public class Bullet {
+public class Bullet extends GameObject {
 	private static final int SPEED = 6; //速度
 	//private static int WIDTH = 30, HEIGHT = 30;//宽高
 	public static int WIDTH = ResourceMgr.bulletD.getWidth();//宽
@@ -46,7 +46,7 @@ public class Bullet {
 		rect.width = WIDTH;
 		rect.height = HEIGHT;
 		
-		gm.bullets.add(this);//每创建一个新的对象，就往list中添加一个子弹，目的：简化写法
+		gm.add(this);//每创建一个新的对象，就往list中添加一个子弹，目的：简化写法
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class Bullet {
 	 */
 	public void paint(Graphics g) {
 		if(!living) {
-			gm.bullets.remove(this);
+			gm.remove(this);
 		}
 //		利用系统颜色简单绘制子弹模型	
 //		Color c = g.getColor();
@@ -116,10 +116,11 @@ public class Bullet {
 	/**
 	 * 碰撞分析
 	 * @param tank
+	 * @return 
 	 */
-	public void collideWith(Tank tank) {
+	public boolean collideWith(Tank tank) {
 		
-		if(this.group == tank.getGroup()) return;//想同属相的坦克和炮弹之间没有伤害
+		if(this.group == tank.getGroup()) return false;//想同属相的坦克和炮弹之间没有伤害
 
 		//TODO: 用一个rect来记录子弹的位置
 //		Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
@@ -130,8 +131,10 @@ public class Bullet {
 			this.die();//死亡
 			int eX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
 			int eY = tank.getY() + Tank.HEIGHT/2 - Explode.HEIGHT/2;
-			gm.explodes.add(new Explode(eX, eY, gm));//爆炸
+			gm.add(new Explode(eX, eY, gm));//爆炸
+			return true;
 		}
+		return false;
 	}
 	/**
 	 * 子弹死亡

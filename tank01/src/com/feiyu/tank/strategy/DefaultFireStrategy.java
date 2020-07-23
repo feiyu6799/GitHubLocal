@@ -1,4 +1,10 @@
-package com.feiyu.tank;
+package com.feiyu.tank.strategy;
+
+import com.feiyu.tank.Audio;
+import com.feiyu.tank.Bullet;
+import com.feiyu.tank.Group;
+import com.feiyu.tank.Tank;
+
 /**
  * 发射子弹的方式2
  * 单发

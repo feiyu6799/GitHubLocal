@@ -5,14 +5,18 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
 
+import com.feiyu.tank.strategy.DefaultFireStrategy;
+import com.feiyu.tank.strategy.FireStrategy;
+import com.feiyu.tank.strategy.FourDirFireStrategy;
+
 /**
  * 坦克类
  * @author feiyu
  *
  */
-public class Tank {
-	int x, y; //大小
-	Dir dir = Dir.DOWN; //方向
+public class Tank extends GameObject{
+	public int x, y; //大小
+	public Dir dir = Dir.DOWN; //方向
 	private static final int SPEED = 2; //速度
 	
 	public static int WIDTH = ResourceMgr.goodTankU.getWidth();
@@ -21,11 +25,11 @@ public class Tank {
 	private  boolean moving = true; //坦克移动的暂停/启动
 	TankFrame tf = null;//获取调用者的对象
 	private boolean living = true;
-	Group group = Group.BAD;//阵容分类
+	public Group group = Group.BAD;//阵容分类
 	
 	FireStrategy fs;//策略模式：子弹的接口属性
 	
-	GameModel gm;//与Frame打交道，同时负责内部事务
+	public GameModel gm;//与Frame打交道，同时负责内部事务
 	
 	private Random random = new Random();
 	Rectangle rect = new Rectangle();//碰撞检测的类
@@ -71,6 +75,10 @@ public class Tank {
 		this.y = y;
 	}
 	
+	public Rectangle getRect() {
+		return rect;
+	}
+	
 	public Tank(int x, int y, Dir dir, Group group, GameModel gm) {
 		super();
 		this.x = x;
@@ -110,7 +118,7 @@ public class Tank {
 	 */
 	public void paint(Graphics g) {
 		
-		if(!living) gm.tanks.remove(this);
+		if(!living) gm.remove(this);
 
 		
 //		利用系统颜色简单绘制坦克模型		
@@ -214,6 +222,10 @@ public class Tank {
 	 */
 	public void die() {
 		this.living = false;
+	}
+
+	public void stop() {
+		this.moving=false;
 	}
 	
 }

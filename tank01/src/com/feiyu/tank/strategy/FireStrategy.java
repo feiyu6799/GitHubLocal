@@ -1,4 +1,7 @@
-package com.feiyu.tank;
+package com.feiyu.tank.strategy;
+
+import com.feiyu.tank.Tank;
+
 /**
  * 策略模式
  * 发射子弹的接口
