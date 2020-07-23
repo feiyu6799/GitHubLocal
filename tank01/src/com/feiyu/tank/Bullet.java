@@ -20,7 +20,8 @@ public class Bullet {
 	private Dir dir;//方向
 
 	private boolean living = true;//子弹是否存活解决内存泄漏问题 
-	TankFrame tf = null; //主窗口
+//	TankFrame tf = null; //主窗口
+	GameModel gm = null;//与Frame打交道，同时负责内部事务
 	
 	private Group group = Group.BAD;//阵容分类
 
@@ -33,19 +34,19 @@ public class Bullet {
 	}
 
 	
-	public Bullet(int x, int y, Dir dir, Group group, TankFrame tf) {
+	public Bullet(int x, int y, Dir dir, Group group, GameModel gm) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
 		this.group = group;
-		this.tf = tf;
+		this.gm = gm;
 		
 		rect.x = this.x;
 		rect.y = this.y;
 		rect.width = WIDTH;
 		rect.height = HEIGHT;
 		
-		tf.bullets.add(this);//每创建一个新的对象，就往list中添加一个子弹，目的：简化写法
+		gm.bullets.add(this);//每创建一个新的对象，就往list中添加一个子弹，目的：简化写法
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class Bullet {
 	 */
 	public void paint(Graphics g) {
 		if(!living) {
-			tf.bullets.remove(this);
+			gm.bullets.remove(this);
 		}
 //		利用系统颜色简单绘制子弹模型	
 //		Color c = g.getColor();
@@ -129,7 +130,7 @@ public class Bullet {
 			this.die();//死亡
 			int eX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
 			int eY = tank.getY() + Tank.HEIGHT/2 - Explode.HEIGHT/2;
-			tf.explodes.add(new Explode(eX, eY, tf));//爆炸
+			gm.explodes.add(new Explode(eX, eY, gm));//爆炸
 		}
 	}
 	/**
