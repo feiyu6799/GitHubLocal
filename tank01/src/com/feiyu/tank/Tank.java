@@ -16,6 +16,7 @@ import com.feiyu.tank.strategy.FourDirFireStrategy;
  */
 public class Tank extends GameObject{
 	public int x, y; //大小
+	int oldX, oldY;//两坦克相交之前的位置
 	public Dir dir = Dir.DOWN; //方向
 	private static final int SPEED = 2; //速度
 	
@@ -29,10 +30,10 @@ public class Tank extends GameObject{
 	
 	FireStrategy fs;//策略模式：子弹的接口属性
 	
-	public GameModel gm;//与Frame打交道，同时负责内部事务
+//	public GameModel gm;//与Frame打交道，同时负责内部事务
 	
 	private Random random = new Random();
-	Rectangle rect = new Rectangle();//碰撞检测的类
+	public Rectangle rect = new Rectangle();//碰撞检测的类
 
 	
 	public Group getGroup() {
@@ -79,13 +80,12 @@ public class Tank extends GameObject{
 		return rect;
 	}
 	
-	public Tank(int x, int y, Dir dir, Group group, GameModel gm) {
+	public Tank(int x, int y, Dir dir, Group group) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
 		this.group = group;
-		this.gm = gm;
 		
 		rect.x = this.x;
 		rect.y = this.y;
@@ -109,7 +109,7 @@ public class Tank extends GameObject{
 			fs = new DefaultFireStrategy();
 		}
 	
-	
+		GameModel.getInstance().add(this);
 	}
 
 	/**
@@ -118,7 +118,8 @@ public class Tank extends GameObject{
 	 */
 	public void paint(Graphics g) {
 		
-		if(!living) gm.remove(this);
+		if(!living)
+			GameModel.getInstance().remove(this);
 
 		
 //		利用系统颜色简单绘制坦克模型		
@@ -165,10 +166,23 @@ public class Tank extends GameObject{
 
 	}
 	
+
+	/**
+	 * 把坦克相交之前位置，赋值给当前坐标
+	 */
+	public void back() {
+		x = oldX;
+		y = oldY;
+	}
+	
 	/**
 	 * 移动方向
 	 */
 	private void move() {
+		
+		//记录移动之前的位置
+		oldX = x;
+		oldY = y;
 		
 		if(!moving) return;
 		

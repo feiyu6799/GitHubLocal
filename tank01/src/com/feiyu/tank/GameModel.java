@@ -17,7 +17,13 @@ import com.feiyu.tank.cor.ColliderChain;
  */
 public class GameModel {
 
-	Tank myTank = new Tank(200, 400, Dir.DOWN, Group.GOOD, this);
+	private static final GameModel INSTANCE = new GameModel();
+	
+	static {
+		INSTANCE.init();
+	}
+	
+	Tank myTank;
 
 //	List<Tank> tanks = new ArrayList<>();//敌方坦克集
 //	List<Bullet> bullets = new ArrayList<>();//子弹集
@@ -27,14 +33,32 @@ public class GameModel {
 	private List<GameObject> objects = new ArrayList<>();//调停者模式，处理坦克，子弹，爆炸...
 
 
-	public GameModel() {
+	public GameModel() {}
+	
+	public static GameModel getInstance() {
+		return INSTANCE;
+	}
+
+	private void init() {
+		// 初始化主战坦克
+		myTank = new Tank(200, 400, Dir.DOWN, Group.GOOD);
+
 		int initTankCount = Integer.parseInt((String) PropertyMgr.get("initTankCount"));
 
 		// 初始化敌方坦克
 		for (int i = 0; i < initTankCount; i++) {
-			add(new Tank(50 + i * 80, 200, Dir.DOWN, Group.BAD, this));
+			new Tank(50 + i * 80, 200, Dir.DOWN, Group.BAD);
 		}
+
+		// 初始化墙(添加了四堵墙)
+		add(new Wall(150, 150, 200, 50));
+		add(new Wall(550, 150, 200, 50));
+		add(new Wall(300, 300, 50, 200));
+		add(new Wall(550, 300, 50, 200));
 	}
+	
+
+	
 	
 	public void add(GameObject go) {
 		this.objects.add(go);

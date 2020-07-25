@@ -15,16 +15,17 @@ public class Explode extends GameObject {
 	
 //	private boolean living = true;//是否存活
 //	TankFrame tf = null;//主窗口
-	GameModel gm = null;//与Frame打交道，同时负责内部事务
+//	GameModel gm = null;//与Frame打交道，同时负责内部事务
 	
 	private int step = 0;//记录1-16张图片加载到哪一张
 	
-	public Explode(int x, int y, GameModel gm) {
+	public Explode(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.gm = gm;
 		
 //				new Thread(()->new Audio("audio/explode.wav").play()).start();//加载爆炸声音
+		GameModel.getInstance().add(this);
+
 	}
 	
 	
@@ -35,7 +36,7 @@ public class Explode extends GameObject {
 		
 		if(step >= ResourceMgr.explodes.length) 
 //			step = 0;
-			gm.remove(this);
+			GameModel.getInstance().remove(this);
 
 	}
 

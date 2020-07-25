@@ -3,7 +3,11 @@ package com.feiyu.tank;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
+/**
+ * 墙
+ * @author feiyu
+ *
+ */
 public class Wall extends GameObject {
 	
 	int w, h;
