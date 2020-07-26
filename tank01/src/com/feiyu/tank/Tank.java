@@ -3,8 +3,13 @@ package com.feiyu.tank;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
+import com.feiyu.tank.observer.TankFireEvent;
+import com.feiyu.tank.observer.TankFireHandler;
+import com.feiyu.tank.observer.TankFireObserver;
 import com.feiyu.tank.strategy.DefaultFireStrategy;
 import com.feiyu.tank.strategy.FireStrategy;
 import com.feiyu.tank.strategy.FourDirFireStrategy;
@@ -251,6 +256,18 @@ public class Tank extends GameObject{
 
 	public void stop() {
 		this.moving=false;
+	}
+	
+	
+	private List<TankFireObserver> fireObservers = Arrays.asList(new TankFireHandler());//观察者串成链条
+	/**
+	 * 按下ctrl键触发
+	 */
+	public void handleFireKey() {
+		TankFireEvent event = new TankFireEvent(this);
+		for(TankFireObserver o : fireObservers) {
+			o.actionOnFire(event);
+		}
 	}
 	
 }

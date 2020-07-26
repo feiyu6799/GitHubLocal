@@ -135,7 +135,8 @@ public class TankFrame extends Frame {
 				
 			case KeyEvent.VK_CONTROL:
 //				myTank.fire();
-				gm.getMainTank().fire();
+//				gm.getMainTank().fire();
+				gm.getMainTank().handleFireKey();//加入观察者模式
 				break;
 
 			default:
