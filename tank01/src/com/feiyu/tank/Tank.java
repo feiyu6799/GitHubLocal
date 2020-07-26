@@ -15,7 +15,7 @@ import com.feiyu.tank.strategy.FourDirFireStrategy;
  *
  */
 public class Tank extends GameObject{
-	public int x, y; //大小
+//	public int x, y; //大小
 	int oldX, oldY;//两坦克相交之前的位置
 	public Dir dir = Dir.DOWN; //方向
 	private static final int SPEED = 2; //速度
@@ -78,6 +78,17 @@ public class Tank extends GameObject{
 	
 	public Rectangle getRect() {
 		return rect;
+	}
+	
+	
+	@Override
+	public int getWidth() {
+		return WIDTH;
+	}
+
+	@Override
+	public int getHeight() {
+		return HEIGHT;
 	}
 	
 	public Tank(int x, int y, Dir dir, Group group) {

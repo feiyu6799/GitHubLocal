@@ -16,7 +16,7 @@ public class Bullet extends GameObject {
 	public Rectangle rect = new Rectangle();//碰撞检测的类
 
 
-	private int x, y;//大小
+//	private int x, y;//大小
 	private Dir dir;//方向
 
 	private boolean living = true;//子弹是否存活解决内存泄漏问题 
@@ -141,4 +141,16 @@ public class Bullet extends GameObject {
 	public void die() {
 		this.living = false;
 	}
+	
+
+	@Override
+	public int getWidth() {
+		return WIDTH;
+	}
+
+	@Override
+	public int getHeight() {
+		return HEIGHT;
+	}
+	
 }
