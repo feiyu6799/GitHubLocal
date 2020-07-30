@@ -2,6 +2,13 @@ package com.feiyu.tank;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,6 +101,59 @@ public class GameModel {
 
 	public Tank getMainTank() {
 		return myTank;
+	}
+	
+	/**
+	 * 保存到硬盘中
+	 */
+	public void save() {
+		File f = new File("c:/feiyu/tank.data");
+		ObjectOutputStream oos = null;
+		try {
+			oos = new ObjectOutputStream(new FileOutputStream(f));
+			oos.writeObject(myTank);
+			oos.writeObject(objects);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(oos != null) {
+				try {
+					oos.close();//关闭流
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * 从硬盘中读取
+	 */
+	public void load() {
+		File f = new File("c:/feiyu/tank.data");
+		ObjectInputStream ois= null;
+		try {
+			ois= new ObjectInputStream(new FileInputStream(f));
+			//注意保存时先写什么，这里就先读什么
+			myTank = (Tank)ois.readObject();
+			objects = (List)ois.readObject();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if(ois == null) {
+				try {
+					ois.close();//关闭流
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

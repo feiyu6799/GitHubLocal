@@ -1,6 +1,7 @@
 package com.feiyu.tank;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 /**
  * 调停者 Mediator
  * 管理坦克，子弹，爆炸，以及后面添加的其他物体，
@@ -9,7 +10,7 @@ import java.awt.Graphics;
  * @author feiyu
  *
  */
-public abstract class GameObject {
+public abstract class GameObject implements Serializable{
 	public int x, y;
 
 	public abstract void paint(Graphics g);

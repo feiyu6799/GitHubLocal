@@ -1,5 +1,7 @@
 package com.feiyu.tank.strategy;
 
+import java.io.Serializable;
+
 import com.feiyu.tank.Tank;
 
 /**
@@ -9,6 +11,6 @@ import com.feiyu.tank.Tank;
  * @author feiyu
  *
  */
-public interface FireStrategy {
+public interface FireStrategy extends Serializable{
 	void fire(Tank t);
 }
