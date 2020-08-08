@@ -31,7 +31,7 @@ public class Server {
 					@Override
 					protected void initChannel(SocketChannel ch) throws Exception {
 						ChannelPipeline pl = ch.pipeline();
-						pl.addLast(new TankMsgDecoder())//解码，解码之后就不再是ByteBuf 而是TankMsg
+						pl.addLast(new TankJoinMsgDecoder())//解码，解码之后就不再是ByteBuf 而是TankMsg
 							.addLast(new ServerChildHandler());
 					}
 				})
@@ -63,7 +63,7 @@ class ServerChildHandler extends ChannelInboundHandlerAdapter { //SimpleChannleI
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		System.out.println("channelRead");
 		try {
-			TankMsg tm = (TankMsg)msg;
+			TankJoinMsg tm = (TankJoinMsg)msg;
 		
 			System.out.println(tm);
 		} finally {

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * 坦克类
@@ -25,8 +26,18 @@ public class Tank {
 	
 	private Random random = new Random();
 	Rectangle rect = new Rectangle();//碰撞检测的类
+	
+	private UUID id = UUID.randomUUID();
 
 	
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
 	public Group getGroup() {
 		return group;
 	}

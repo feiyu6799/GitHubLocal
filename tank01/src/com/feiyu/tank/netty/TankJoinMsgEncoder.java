@@ -9,12 +9,11 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @author feiyu
  *
  */
-public class TankMsgEncoder extends MessageToByteEncoder<TankMsg>{
+public class TankJoinMsgEncoder extends MessageToByteEncoder<TankJoinMsg>{
 
 	@Override
-	protected void encode(ChannelHandlerContext ctx, TankMsg msg, ByteBuf buf) throws Exception {
-		buf.writeInt(msg.x);
-		buf.writeInt(msg.y);
+	protected void encode(ChannelHandlerContext ctx, TankJoinMsg msg, ByteBuf buf) throws Exception {
+		buf.writeBytes(msg.toBytes());
 	}
 	
 
